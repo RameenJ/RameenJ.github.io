@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retail Demand Forecasting &amp; Inventory Intelligence — Rameen Jamshed</title>
+<meta name="description" content="An end-to-end decision-support platform turning retail sales history into demand forecasts, calibrated uncertainty, and replenishment recommendations.">
+<link rel="canonical" href="https://rameenj.github.io/projects/retail-demand-forecasting.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rameen Jamshed">
+<meta property="og:title" content="Retail Demand Forecasting &amp; Inventory Intelligence — Rameen Jamshed">
+<meta property="og:description" content="End-to-end ML platform: XGBoost forecasts, calibrated intervals and reorder recommendations behind a FastAPI service. Live demo and source.">
+<meta property="og:url" content="https://rameenj.github.io/projects/retail-demand-forecasting.html">
+<meta property="og:image" content="https://rameenj.github.io/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Rameen Jamshed — ML &amp; AI Engineer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Retail Demand Forecasting &amp; Inventory Intelligence — Rameen Jamshed">
+<meta name="twitter:description" content="End-to-end ML platform: XGBoost forecasts, calibrated intervals and reorder recommendations behind a FastAPI service. Live demo and source.">
+<meta name="twitter:image" content="https://rameenj.github.io/assets/img/og-image.png">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div class="bg-fade"></div>
+
+<div class="ticker">
+  <div class="ticker__track">
+    <span class="ticker__item"><span class="dot"></span> MODEL <b>global XGBoost</b> + Prophet benchmark</span>
+    <span class="ticker__item">EVALUATION <b>rolling-origin backtesting</b></span>
+    <span class="ticker__item">UNCERTAINTY <b>residual-calibrated intervals</b></span>
+    <span class="ticker__item">SEGMENTATION <b>ABC / XYZ</b></span>
+    <span class="ticker__item">INTERFACES <b>Streamlit</b> · <b>FastAPI</b></span>
+    <span class="ticker__item">TESTS <b class="up">unit + integration</b></span>
+    <span class="ticker__item">DASHBOARD PAGES <b>5</b></span>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="wrap nav__row">
+    <a class="brand" href="../index.html">
+      <span class="brand__mark">RJ</span>
+      <span>
+        <span class="brand__name">Rameen Jamshed</span>
+        <span class="brand__role">ML &amp; AI Engineer</span>
+      </span>
+    </a>
+    <nav class="navlinks">
+      <a href="../index.html#research">research</a>
+      <a href="../index.html#experience">experience</a>
+      <a href="../index.html#contact">contact</a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span class="status-pill"><span class="status-pill__dot"></span>Open to work</span>
+      <a class="btn btn-grad" href="../assets/Rameen_Jamshed_CV.pdf" download>↓ CV</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="wrap p-hero">
+    <a class="back-link" href="../index.html#research">← back to index</a>
+    <div class="eyebrow"><span>●</span> 02 / ML system — forecasting &amp; decision engine</div>
+    <h1 class="p-hero__title">Retail Demand Forecasting &amp; Inventory Intelligence</h1>
+    <p class="p-hero__dek">
+      An end-to-end decision-support platform that turns retail sales history into demand forecasts,
+      calibrated uncertainty, pricing insight, and actionable replenishment recommendations — built
+      on the premise that a forecast only matters if it improves a decision.
+    </p>
+    <div class="p-hero__actions">
+      <a class="btn btn-grad" href="https://retail-demand-forecasting-t8dvtb4wyfed2j6pajhc7n.streamlit.app/" target="_blank" rel="noopener">▶ View live demo</a>
+      <a class="btn btn-line" href="https://github.com/RameenJ/Retail-Demand-Forecasting" target="_blank" rel="noopener">⌥ View source on GitHub</a>
+    </div>
+    <div class="p-hero__meta">
+      <span>status — <b>live, deterministic demo mode</b></span>
+      <span>data — <b>demo pipeline · sampled M5</b></span>
+      <span>interfaces — <b>Streamlit · FastAPI</b></span>
+      <span>testing — <b>pytest, unit + integration</b></span>
+    </div>
+
+    <div class="p-viz reveal">
+      <div class="p-viz__bar"><span>forecast_interval.render()</span><span>xgboost <b>·</b> calibrated band</span></div>
+      <canvas data-viz="forecast"></canvas>
+    </div>
+  </section>
+
+  <div class="wrap p-body">
+    <div class="p-main">
+
+      <section class="reveal">
+        <h2>The engineering behind it</h2>
+        <ul>
+          <li><b>One domain package, many interfaces</b> — forecasting and inventory logic live in a shared Python package consumed by the Streamlit dashboard, a documented FastAPI service, and a tool-backed analytics assistant, so behaviour is never duplicated across layers.</li>
+          <li><b>Tool-calling analytics assistant</b> — natural-language questions are answered through explicit tools over the forecasting and inventory modules, so answers trace back to real computed evidence.</li>
+          <li><b>Tested end to end</b> — unit tests cover features, leakage controls, backtests, interval calibration, and inventory simulation; integration tests cover dashboard startup and the full workflow.</li>
+          <li><b>Reproducible by design</b> — deterministic demo mode, recorded seeds and configuration, and identical forecast origins and horizons when comparing models.</li>
+          <li><b>Evaluated on outcomes</b> — models are judged against baselines and by downstream inventory results (stockouts, excess, service level), not forecast error alone.</li>
+        </ul>
+      </section>
+
+      <section class="reveal">
+        <h2>Why this exists</h2>
+        <p>
+          Retail forecasting is only useful if it improves a decision. Predicting next week's unit
+          sales isn't enough on its own — planners also need to know how uncertain that prediction is,
+          which SKUs need attention, how much inventory to hold, and how price or policy changes might
+          change the outcome. This platform connects those pieces into one reproducible workflow: sales
+          data → leakage-safe features → model backtesting → calibrated forecasts → inventory policy
+          simulation → business recommendations.
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>What it delivers</h2>
+        <ul>
+          <li><b>Demand forecasting</b> — store–SKU forecasts from simple baselines, a global XGBoost model, and an optional Prophet benchmark.</li>
+          <li><b>Honest evaluation</b> — rolling-origin backtesting that preserves time order, so no future information leaks into training.</li>
+          <li><b>Forecast uncertainty</b> — residual-calibrated prediction intervals for risk-aware planning, instead of unsupported point estimates.</li>
+          <li><b>Portfolio segmentation</b> — ABC/XYZ classification separating high-value items from stable, variable, and intermittent demand.</li>
+          <li><b>Price intelligence</b> — hierarchical price-elasticity estimation, with fallbacks when a single series lacks enough evidence.</li>
+          <li><b>Inventory decisions</b> — reorder recommendations informed by forecast demand, lead time, uncertainty, and service-level targets.</li>
+          <li><b>Policy evaluation</b> — a sequential inventory simulation measuring stockouts, excess inventory, and service level over time.</li>
+          <li><b>Scenario analysis</b> — what-if controls for demand, price, lead-time, and inventory-policy changes.</li>
+        </ul>
+      </section>
+
+      <section class="reveal">
+        <h2>Methodology</h2>
+        <div class="flow">
+          <div class="flow-step">
+            <span class="flow-step__n">01</span>
+            <div><div class="flow-step__t">Data &amp; feature engineering</div><div class="flow-step__d">A deterministic demo pipeline plus sampled ingestion from the M5 Forecasting dataset; time-aware lag, rolling, calendar, and price features with strict leakage controls, and ABC/XYZ portfolio segmentation up front.</div></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-step__n">02</span>
+            <div><div class="flow-step__t">Forecasting</div><div class="flow-step__d">Four simple baselines are benchmarked before accepting model complexity; a global XGBoost model shares signal across related store–SKU series, with Prophet as an optional statistical benchmark. Evaluation is rolling-origin, and intervals are calibrated from out-of-sample residuals.</div></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-step__n">03</span>
+            <div><div class="flow-step__t">Econometrics &amp; scenarios</div><div class="flow-step__d">STL decomposition separates trend, seasonality, and residual variation; price elasticity is estimated at the most specific reliable level and falls back through a hierarchy when a series lacks price variation. Scenario controls keep model forecasts distinguishable from explicit business assumptions.</div></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-step__n">04</span>
+            <div><div class="flow-step__t">Inventory intelligence</div><div class="flow-step__d">Forecast distributions become reorder-oriented recommendations that account for lead time, on-hand inventory, service targets, and demand uncertainty — evaluated by a sequential simulator that never uses future realized demand.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>Design principles</h2>
+        <ul>
+          <li><b>Decision-first</b> — every analytical component feeds a planning or replenishment decision.</li>
+          <li><b>Time-aware</b> — training, evaluation, features, and simulation all respect chronological order.</li>
+          <li><b>Baseline-driven</b> — complex models have to demonstrate value over simple alternatives.</li>
+          <li><b>Uncertainty-aware</b> — recommendations use prediction risk, not just point forecasts.</li>
+          <li><b>Reproducible</b> — demo runs are deterministic; core behaviour is covered by unit and integration tests.</li>
+          <li><b>Interface-independent</b> — forecasting and inventory logic are shared cleanly across Python, FastAPI, and Streamlit.</li>
+        </ul>
+      </section>
+
+      <section class="reveal">
+        <h2>Dashboard workflow</h2>
+        <p>
+          The five-page Streamlit dashboard is organised around the questions a retail planner
+          actually asks: what is happening (portfolio KPIs and segmentation), what is likely to
+          happen next (forecasts and uncertainty), which products need action (stockout and overstock
+          risk), what if assumptions change (scenario controls), and why is this recommendation being
+          made (diagnostics and a tool-backed analytics assistant that traces supporting evidence).
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>Limitations</h2>
+        <p>
+          This is a decision-support MVP, not an autonomous ordering system. Results from sampled or
+          synthetic data shouldn't be read as production business impact, and price-elasticity
+          estimates are observational rather than causal without a proper experimental design.
+          Forecast quality can deteriorate under assortment changes, supply constraints, or
+          unrepresented promotions. Production deployment would additionally need authentication,
+          persistent storage, monitoring, and retailer-specific validation.
+        </p>
+      </section>
+
+    </div>
+
+    <aside class="p-side">
+      <div class="side-card reveal">
+        <h3>At a glance</h3>
+        <div class="metric"><span class="metric__label">Forecasting model</span><span class="metric__val">Global XGBoost</span></div>
+        <div class="metric"><span class="metric__label">Benchmark</span><span class="metric__val">Prophet (optional)</span></div>
+        <div class="metric"><span class="metric__label">Evaluation</span><span class="metric__val">Rolling-origin</span></div>
+        <div class="metric"><span class="metric__label">Uncertainty</span><span class="metric__val">Residual-calibrated</span></div>
+        <div class="metric"><span class="metric__label">Segmentation</span><span class="metric__val">ABC / XYZ</span></div>
+        <div class="metric"><span class="metric__label">Dashboard pages</span><span class="metric__val">5</span></div>
+        <div class="metric"><span class="metric__label">Test suites</span><span class="metric__val">Unit + Integration</span></div>
+        <div class="metric"><span class="metric__label">Interfaces</span><span class="metric__val">Streamlit, FastAPI</span></div>
+      </div>
+
+      <div class="side-card reveal">
+        <h3>Stack</h3>
+        <div class="side-stack">
+          <span class="pill">Python 3.10+</span>
+          <span class="pill">XGBoost</span>
+          <span class="pill">Prophet</span>
+          <span class="pill">FastAPI</span>
+          <span class="pill">Streamlit</span>
+          <span class="pill">pytest</span>
+          <span class="pill">pandas / numpy</span>
+        </div>
+      </div>
+
+      <div class="side-card reveal">
+        <h3>API</h3>
+        <div class="metric"><span class="metric__label">Interactive docs</span><span class="metric__val">/docs</span></div>
+        <div class="metric"><span class="metric__label">Alt. docs</span><span class="metric__val">/redoc</span></div>
+        <div class="metric"><span class="metric__label">Local port</span><span class="metric__val">8000</span></div>
+      </div>
+
+      <p class="limits">A portfolio MVP for demonstration. Not a production ordering system — see Limitations for full detail.</p>
+    </aside>
+  </div>
+
+  <div class="wrap p-next">
+    <div>
+      <div class="p-next__label">next in the index</div>
+      <a href="market-regime-detection.html"><div class="p-next__title">01 — Macro-Market Regime Detection System →</div></a>
+    </div>
+    <a class="btn btn-line" href="../index.html#research">Back to full index</a>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="colophon" style="border-top:1px solid var(--border); padding-top:22px;">
+      <span>Space Grotesk · Inter · JetBrains Mono</span>
+      <span>Composed in Islamabad, Pakistan</span>
+      <span>© 2026 Rameen Jamshed</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

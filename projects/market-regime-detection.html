@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Macro-Market Regime Detection System — Rameen Jamshed</title>
+<meta name="description" content="A Gaussian HMM + PCA system that classifies the US macro-financial environment into four interpretable regimes.">
+<link rel="canonical" href="https://rameenj.github.io/projects/market-regime-detection.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rameen Jamshed">
+<meta property="og:title" content="Macro-Market Regime Detection System — Rameen Jamshed">
+<meta property="og:description" content="PCA + Gaussian HMM classifying the US macro-financial environment into four regimes, refreshed daily via GitHub Actions. Live demo and source.">
+<meta property="og:url" content="https://rameenj.github.io/projects/market-regime-detection.html">
+<meta property="og:image" content="https://rameenj.github.io/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Rameen Jamshed — ML &amp; AI Engineer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Macro-Market Regime Detection System — Rameen Jamshed">
+<meta name="twitter:description" content="PCA + Gaussian HMM classifying the US macro-financial environment into four regimes, refreshed daily via GitHub Actions. Live demo and source.">
+<meta name="twitter:image" content="https://rameenj.github.io/assets/img/og-image.png">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div class="bg-fade"></div>
+
+<div class="ticker">
+  <div class="ticker__track">
+    <span class="ticker__item"><span class="dot"></span> PCA <b>4 components</b> · 74.3% variance</span>
+    <span class="ticker__item">HMM <b>4 states</b>, full covariance, 20 restarts</span>
+    <span class="ticker__item">AVG POSTERIOR CONFIDENCE <b>99.2%</b></span>
+    <span class="ticker__item">K-MEANS CROSS-CHECK AGREEMENT <b>80.3%</b></span>
+    <span class="ticker__item">HISTORICAL EVENTS VALIDATED <b class="up">4 / 4</b></span>
+    <span class="ticker__item">REFRESH <b>daily, weekdays 22:30 UTC</b></span>
+    <span class="ticker__item">DIAGONAL TRANSITION PROB. <b>&gt; 0.98</b></span>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="wrap nav__row">
+    <a class="brand" href="../index.html">
+      <span class="brand__mark">RJ</span>
+      <span>
+        <span class="brand__name">Rameen Jamshed</span>
+        <span class="brand__role">ML &amp; AI Engineer</span>
+      </span>
+    </a>
+    <nav class="navlinks">
+      <a href="../index.html#research">research</a>
+      <a href="../index.html#experience">experience</a>
+      <a href="../index.html#contact">contact</a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span class="status-pill"><span class="status-pill__dot"></span>Open to work</span>
+      <a class="btn btn-grad" href="../assets/Rameen_Jamshed_CV.pdf" download>↓ CV</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="wrap p-hero">
+    <a class="back-link" href="../index.html#research">← back to index</a>
+    <div class="eyebrow"><span>●</span> 01 / ML system — unsupervised learning</div>
+    <h1 class="p-hero__title">Macro-Market Regime Detection System</h1>
+    <p class="p-hero__dek">
+      A quant-research-style system that classifies the US macro-financial environment into four
+      interpretable regimes — Risk-On, Risk-Off, High-Volatility, Inflation-Driven — using
+      unsupervised machine learning on 16 engineered macro and market features, refreshed
+      automatically every trading day.
+    </p>
+    <div class="p-hero__actions">
+      <a class="btn btn-grad" href="https://market-regime-detection-jp7kvkqycthtim5jbfgmmw.streamlit.app/" target="_blank" rel="noopener">▶ View live demo</a>
+      <a class="btn btn-line" href="https://github.com/RameenJ/Market-Regime-Detection" target="_blank" rel="noopener">⌥ View source on GitHub</a>
+    </div>
+    <div class="p-hero__meta">
+      <span>status — <b>live, daily auto-refresh</b></span>
+      <span>data — <b>Yahoo Finance · FRED</b></span>
+      <span>deploy — <b>Streamlit Community Cloud</b></span>
+      <span>automation — <b>GitHub Actions</b></span>
+    </div>
+
+    <div class="p-viz reveal">
+      <div class="p-viz__bar"><span>regime_timeline.render()</span><span><b>4</b> states · Viterbi-decoded</span></div>
+      <canvas data-viz="regime"></canvas>
+    </div>
+  </section>
+
+  <div class="wrap p-body">
+    <div class="p-main">
+
+      <section class="reveal">
+        <h2>The engineering behind it</h2>
+        <ul>
+          <li><b>Automated, scheduled inference</b> — a GitHub Actions workflow runs every weekday, pulls new data, re-engineers features, and re-decodes the regime sequence, then commits the updated artifacts and triggers a redeploy.</li>
+          <li><b>Frozen model, deliberate re-fit policy</b> — the fitted PCA and HMM are versioned and reused for inference so regime boundaries stay stable; periodic manual re-fitting is a design decision, not an oversight.</li>
+          <li><b>Train/serve consistency</b> — new data is z-scored with stored training-time means and standard deviations, so live features match what the model was fit on.</li>
+          <li><b>Leakage discipline</b> — monthly macro series are forward-filled only, and backtest regime labels are lagged one day, so nothing in the pipeline sees information from the future.</li>
+          <li><b>Explainable output</b> — every predicted regime ships with feature-contribution scores and a plain-English explanation, and a refresh log records each run.</li>
+        </ul>
+      </section>
+
+      <section class="reveal">
+        <h2>Why regime detection, not price forecasting</h2>
+        <p>
+          Most machine-learning-in-finance projects try to predict tomorrow's price. This system asks
+          a different question: what kind of market environment is this, right now? Asset-class
+          behaviour, risk premia, and strategy performance all vary systematically across macro
+          regimes — the same equity strategy that thrives when markets are Risk-On can destroy
+          capital in a High-Volatility regime. Regime classification is closer to how professional
+          macro and quant researchers actually frame market analysis: not "will the market rise
+          tomorrow," but "what is the governing regime, and how should positioning reflect it?"
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>The four regimes</h2>
+        <ul>
+          <li><b>Risk-On</b> — low volatility, tight credit spreads, an expanding economy, healthy sentiment. Observed 26.6% of the sample.</li>
+          <li><b>Risk-Off</b> — elevated caution, below-average inflation, wider spreads. The most persistent regime, at 41.0% of the sample.</li>
+          <li><b>High-Volatility</b> — crisis and acute stress: the 2008 financial crisis, the 2020 COVID crash. 14.6% of the sample.</li>
+          <li><b>Inflation-Driven</b> — elevated price pressure and rising breakeven inflation, characteristic of 2021–2023. 17.8% of the sample.</li>
+        </ul>
+        <p>The model was validated against four known macro events before deployment — the COVID crash (Mar 2020), GFC peak stress (Oct 2008), the 2022 inflation peak, and a 2018 bull-market stretch — and correctly labelled all four.</p>
+      </section>
+
+      <section class="reveal">
+        <h2>Pipeline</h2>
+        <div class="flow">
+          <div class="flow-step">
+            <span class="flow-step__n">01</span>
+            <div><div class="flow-step__t">Data collection &amp; alignment</div><div class="flow-step__d">Daily market data and monthly macro series, forward-filled onto the trading-day calendar so the model only ever sees what a real participant would know on that day.</div></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-step__n">02</span>
+            <div><div class="flow-step__t">Feature engineering</div><div class="flow-step__d">16 features spanning returns, rolling and GARCH volatility, drawdown, yield-curve slope, credit spreads, CPI, and a PMI proxy — all z-scored on training statistics.</div></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-step__n">03</span>
+            <div><div class="flow-step__t">Modelling</div><div class="flow-step__d">PCA to 4 components (74.3% variance) → K-means as an independent cross-check → a full-covariance Gaussian HMM with 20 random restarts → Viterbi decoding of the regime sequence.</div></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-step__n">04</span>
+            <div><div class="flow-step__t">Explanation engine</div><div class="flow-step__d">Feature-contribution scoring and plain-English narrative generation — so a labelled regime always comes with a "why."</div></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-step__n">05</span>
+            <div><div class="flow-step__t">Dashboard</div><div class="flow-step__d">A four-tab Streamlit app: Timeline, Current Regime, Statistics, and a regime-aware Backtest against a static 60/40 benchmark.</div></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-step__n">06</span>
+            <div><div class="flow-step__t">Daily refresh</div><div class="flow-step__d">A GitHub Actions workflow pulls new data, re-engineers features, and re-runs Viterbi decoding on the frozen model every weekday — regime boundaries stay stable rather than being re-fit daily.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>Modelling notes</h2>
+        <p>
+          A Gaussian HMM with four hidden states and full covariance matrices is the primary regime
+          engine — full covariance lets each state capture within-regime correlation, such as VIX and
+          credit spreads rising together in a Risk-Off state. All diagonal transition probabilities
+          exceed <code>0.98</code>: once the market enters a regime, it strongly tends to stay there,
+          the expected signature of a genuine macro regime rather than a noisy day-to-day signal.
+        </p>
+        <p>
+          An independent K-means cross-check on the same PCA-reduced features agrees with the HMM
+          sequence 80.3% of the time, via Hungarian-algorithm state matching. Most of the remaining
+          disagreement sits in the Inflation-Driven state, where the HMM's temporal memory adds real
+          value over K-means' memoryless assignment. A GARCH(1,1) model with Student-t innovations
+          supplies a model-based volatility estimate alongside simple rolling realized volatility, to
+          capture volatility clustering that a rolling standard deviation misses.
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>Two data-sourcing substitutions worth noting</h2>
+        <p>
+          Two standard series used in most regime models were not freely available and required
+          substitution — a real-world constraint that doesn't show up in textbooks. The ICE BofA
+          US High-Yield Index spread was restricted by FRED to a rolling three-year window in April
+          2026; <b>Moody's Baa–10Y corporate spread</b> stands in, capturing the same credit-risk-premium
+          signal with full free history. The ISM Manufacturing PMI has been licensed through Bloomberg
+          since 2016; the <b>Philadelphia Fed Manufacturing Index</b> substitutes, using the same
+          diffusion-index methodology and closely tracking the ISM release in practice.
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>Backtest &amp; limitations</h2>
+        <p>
+          A simple regime-conditional allocation (85/15 equity/bond in Risk-On, tapering to 20/80 in
+          High-Volatility) is compared against a static 60/40 benchmark, with regime labels lagged one
+          day before computing returns to avoid look-ahead bias. The backtest doesn't model transaction
+          costs, slippage, or rebalancing friction, and is illustrative of the regime framework's logic
+          rather than a tradeable strategy. The HMM is re-fit periodically rather than continuously,
+          and the current build covers US equities and macro data only — a euro-area extension is
+          future work.
+        </p>
+      </section>
+
+    </div>
+
+    <aside class="p-side">
+      <div class="side-card reveal">
+        <h3>At a glance</h3>
+        <div class="metric"><span class="metric__label">Regimes</span><span class="metric__val">4</span></div>
+        <div class="metric"><span class="metric__label">Engineered features</span><span class="metric__val">16</span></div>
+        <div class="metric"><span class="metric__label">PCA variance explained</span><span class="metric__val">74.3%</span></div>
+        <div class="metric"><span class="metric__label">HMM covariance</span><span class="metric__val">Full, 20 restarts</span></div>
+        <div class="metric"><span class="metric__label">Avg. posterior confidence</span><span class="metric__val">99.2%</span></div>
+        <div class="metric"><span class="metric__label">K-means agreement</span><span class="metric__val">80.3%</span></div>
+        <div class="metric"><span class="metric__label">Events validated</span><span class="metric__val">4 / 4</span></div>
+        <div class="metric"><span class="metric__label">Refresh cadence</span><span class="metric__val">Daily, weekdays</span></div>
+      </div>
+
+      <div class="side-card reveal">
+        <h3>Stack</h3>
+        <div class="side-stack">
+          <span class="pill">Python</span>
+          <span class="pill">scikit-learn</span>
+          <span class="pill">hmmlearn</span>
+          <span class="pill">arch (GARCH)</span>
+          <span class="pill">pandas / numpy</span>
+          <span class="pill">yfinance</span>
+          <span class="pill">fredapi</span>
+          <span class="pill">Streamlit</span>
+          <span class="pill">Plotly</span>
+          <span class="pill">GitHub Actions</span>
+        </div>
+      </div>
+
+      <div class="side-card reveal">
+        <h3>Data sources</h3>
+        <div class="metric"><span class="metric__label">Equities &amp; volatility</span><span class="metric__val">S&amp;P 500, VIX</span></div>
+        <div class="metric"><span class="metric__label">Rates</span><span class="metric__val">DGS10, DGS2, Fed Funds</span></div>
+        <div class="metric"><span class="metric__label">Inflation</span><span class="metric__val">CPI, 5Y breakeven</span></div>
+        <div class="metric"><span class="metric__label">Growth</span><span class="metric__val">INDPRO, Philly Fed</span></div>
+        <div class="metric"><span class="metric__label">Credit</span><span class="metric__val">Baa–10Y spread</span></div>
+      </div>
+
+      <p class="limits">Built for portfolio and research demonstration. Nothing here constitutes investment advice — regime classifications, allocation tilts, and backtest results are illustrative only.</p>
+    </aside>
+  </div>
+
+  <div class="wrap p-next">
+    <div>
+      <div class="p-next__label">next in the index</div>
+      <a href="retail-demand-forecasting.html"><div class="p-next__title">02 — Retail Demand Forecasting &amp; Inventory Intelligence →</div></a>
+    </div>
+    <a class="btn btn-line" href="../index.html#research">Back to full index</a>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="colophon" style="border-top:1px solid var(--border); padding-top:22px;">
+      <span>Space Grotesk · Inter · JetBrains Mono</span>
+      <span>Composed in Islamabad, Pakistan</span>
+      <span>© 2026 Rameen Jamshed</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
